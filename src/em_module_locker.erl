@@ -73,7 +73,8 @@ handle_call({lock, MockPid, Mods}, From,
     em_module_locker:handle_cast(perform_locking, NewState);
 
 handle_call(_Request, _From, State) ->
-    utils:default_handle_call(State).
+    %utils:default_handle_call(State).
+	{reply, {error, unknown}, State}.
 
 
 handle_cast(perform_locking,
@@ -94,7 +95,8 @@ handle_cast(perform_locking,
     {noreply, NewState};
 
 handle_cast(_Request, State) ->
-    utils:default_handle_cast(State).
+    %utils:default_handle_cast(State).
+	{noreply, State}.
 
 %%------------------------------------------------------------------------------
 %% @private
@@ -113,8 +115,9 @@ handle_info({'DOWN', _Ref, process, Pid, _Reason}, State) ->
                  locking_mocks = State#state.locking_mocks -- Mocks_To_Unlock,
                  waiting_mocks = State#state.waiting_mocks -- Mocks_Not_Waiting_Anymore}};
     
-handle_info(Info, State) ->
-    utils:default_handle_info(application_name_here, Info, ?MODULE, State).
+handle_info(_Info, State) ->
+    %utils:default_handle_info(application_name_here, Info, ?MODULE, State).
+	{noreply, State}.
 
 %%------------------------------------------------------------------------------
 %% @private
