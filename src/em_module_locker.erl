@@ -68,7 +68,7 @@ init([]) ->
 %%------------------------------------------------------------------------------
 handle_call({lock, MockPid, Mods}, From, 
             State = #state{}) ->
-    monitor(process, MockPid),
+    erlang:monitor(process, MockPid),
     NewState = State#state{waiting_mocks = [{MockPid, Mods, From} | State#state.waiting_mocks]},
     em_module_locker:handle_cast(perform_locking, NewState);
 
